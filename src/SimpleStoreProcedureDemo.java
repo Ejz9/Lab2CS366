@@ -58,7 +58,7 @@ drop procedure if exists getTotalStudent;
 create procedure getTotalStudent(INOUT total int) 
 begin 
       select count(*) into total
-      from student;
+      from Faculty;
 end $$
 delimiter ; 
 

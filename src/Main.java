@@ -27,9 +27,14 @@ public class Main {
         Connection con = DatabaseConnection();
         try {
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("select sname from student where level = 'JR';)");
-
-            ResultSetMetaData metaData = resultSet.getMetaData();
+            //ResultSet resultSet = statement.executeQuery("call getTotalFaculty(@total)");
+            String spName = "getTotalFaculty";
+            CallableStatement myCallStmt = con.prepareCall("call getTotalFaculty(?)");
+            myCallStmt.registerOutParameter(1,Types.BIGINT);
+            myCallStmt.execute();
+            int total = myCallStmt.getInt(1);
+            System.out.println("The total Faculty ="+ total);
+            /* ResultSetMetaData metaData = resultSet.getMetaData();
             int columns = metaData.getColumnCount();
 
             for (int i = 1; i <= columns; i++) {
@@ -44,7 +49,7 @@ public class Main {
                     System.out.print(resultSet.getObject(i) + "\t\t");
                 }
                 System.out.println();
-            }
+            }*/
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
