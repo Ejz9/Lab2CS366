@@ -1,0 +1,10 @@
+delimiter $$
+drop procedure if exists getStudentInfo;
+create procedure getStudentInfo(IN studentID int)
+begin
+    select snum, sname, major, level, age
+    from Student
+    where snum = studentID;
+end $$
+
+delimiter ;

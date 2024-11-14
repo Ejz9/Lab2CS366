@@ -1,0 +1,40 @@
+delimiter $$
+
+drop procedure if exists getClassInfo;
+create procedure getClassInfo(INOUT classList VARCHAR(4000))
+begin
+    declare isDone integer default 0;
+    declare currentClass VARCHAR(255) default "";
+    declare currentMeet VARCHAR(255) default "";
+    declare currentRoom VARCHAR(255) default "";
+    declare currentFid integer default 0;
+    declare maxClassLength integer default 0;
+
+    declare classCursor cursor for
+        select cname, meets_at, room, fid from Class;
+    declare continue handler for not found set isDone = 1;
+
+    select max(char_length(cname)) into maxClassLength from Class;
+
+    set classList = "Class Name\t\t\t\t\t\t\t\t\tMeets At\t\t\t\t\t\t\t\tRoom\t\t\t\tFID\n---------------------------------------------------------------------------------------------------------------------\n";
+
+    open classCursor;
+
+    getList: LOOP
+        fetch classCursor into currentClass, currentMeet, currentRoom, currentFid;
+        if isDone = 1 then
+            leave getList;
+        end if;
+
+        set currentClass = concat(currentClass, repeat(" ", maxClassLength - char_length(currentClass)));
+        set currentMeet = lpad(currentMeet, 20);
+        set currentRoom = lpad(currentRoom, 20);
+        set currentFid = lpad(cast(currentFid as char), 10);
+
+        set classList = concat(classList, currentClass, "\t\t\t", currentMeet, "\t\t\t", currentRoom, "\t\t\t", currentFid, "\n");
+    end loop getList;
+
+    close classCursor;
+end $$
+
+delimiter ;

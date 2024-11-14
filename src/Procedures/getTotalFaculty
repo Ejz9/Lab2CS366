@@ -1,0 +1,10 @@
+delimiter $$
+
+drop procedure if exists getTotalFaculty;
+create procedure getTotalFaculty(INOUT total int)
+begin
+    select count(*) into total
+    from Faculty;
+end $$
+
+delimiter ;

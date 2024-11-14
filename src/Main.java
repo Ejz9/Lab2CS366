@@ -27,11 +27,27 @@ public class Main {
     public static void main(String[] args) {
         Connection con = DatabaseConnection();
         try {
-            Statement statement = con.createStatement();
-            //getTotalFaculty(con);
-            //getStudentInfo(con);
-            getClassInformation(con);
-            //runSQLQuery(statement, "select * from Student");
+            Scanner input = new Scanner(System.in);
+            System.out.print("Pick a SQL method:\n1. getTotalFaculty\n2. getStudentInfo - takes input (student ID)\n3. getClassInformation\n4. runSQLQuery - takes input (SQL Query\n");
+            switch (input.nextInt()) {
+                case 1:
+                    getTotalFaculty(con);
+                    break;
+                case 2:
+                    getStudentInfo(con, input);
+                    break;
+                case 3:
+                    getClassInformation(con);
+                    break;
+                case 4:
+                    runSQLQuery(con, input);
+                    break;
+                    default:
+                        input.close();
+                        con.close();
+                        System.exit(0);
+            }
+            con.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         } catch (Exception e) {
@@ -39,7 +55,12 @@ public class Main {
         }
     }
 
-    private static void runSQLQuery(Statement statement, String query) throws SQLException {
+    private static void runSQLQuery(Connection con, Scanner input) throws SQLException {
+        Statement statement = con.createStatement();
+        System.out.print("Enter the SQL Query: ");
+        input.nextLine();
+        String query = input.nextLine();
+        input.close();
         ResultSet resultSet = statement.executeQuery(query);
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columns = metaData.getColumnCount();
@@ -59,17 +80,16 @@ public class Main {
     }
 
     private static void getTotalFaculty(Connection con) throws SQLException {
-            CallableStatement myCallStmt = con.prepareCall("call getTotalFaculty(?)");
-            myCallStmt.registerOutParameter(1,Types.BIGINT);
-            myCallStmt.execute();
-            int total = myCallStmt.getInt(1);
-            System.out.println("The total Faculty = "+ total);
+        CallableStatement myCallStmt = con.prepareCall("call getTotalFaculty(?)");
+        myCallStmt.registerOutParameter(1, Types.BIGINT);
+        myCallStmt.execute();
+        int total = myCallStmt.getInt(1);
+        System.out.println("The total Faculty = " + total);
     }
 
-    private static void getStudentInfo(Connection con) throws SQLException {
+    private static void getStudentInfo(Connection con, Scanner input) throws SQLException {
         CallableStatement myCallStmt = con.prepareCall("{call getStudentInfo(?)}");
 
-        Scanner input = new Scanner(System.in);
         System.out.print("Please enter a studentID: ");
         int studentID = input.nextInt();
         myCallStmt.setInt(1, studentID);
@@ -101,11 +121,11 @@ public class Main {
 
     private static void getClassInformation(Connection con) throws SQLException {
         CallableStatement myCallStmt = con.prepareCall("{call getClassInfo(?)}");
-        myCallStmt.setString(1,"");
-        myCallStmt.registerOutParameter(1,Types.VARCHAR);
+        myCallStmt.setString(1, "");
+        myCallStmt.registerOutParameter(1, Types.VARCHAR);
         myCallStmt.execute();
         String classList = myCallStmt.getString(1);
-        System.out.println("Class Information:\n" + classList);
         myCallStmt.close();
+        System.out.println("Class Information:\n" + classList);
     }
 }
