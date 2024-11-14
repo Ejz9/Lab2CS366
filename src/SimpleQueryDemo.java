@@ -1,5 +1,3 @@
-package MySQLDemo;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,7 +12,7 @@ public class SimpleQueryDemo {
 	    static final String hostName ="washington.uww.edu"; //140.146.23.39 or washington.uww.edu
 	    static final String databaseURL ="jdbc:mariadb://"+hostName+"/"+databasePrefix;
 	    static final String password="hien123"; // please enter your own password
-	  
+
 	    private Connection connection = null;
         private Statement statement = null;
         private ResultSet resultSet = null;

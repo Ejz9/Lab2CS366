@@ -1,5 +1,3 @@
-package MySQLDemo;
-
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.DriverManager;
@@ -8,10 +6,10 @@ import java.sql.SQLException;
 public class ConnectionDemo {
 
     static final String databasePrefix ="cs366-nguyenh";
-    static final String netID ="nguyenh"; // Please enter your netId
+    static final String netID ="zurakowsej30"; // Please enter your netId
     static final String hostName ="washington.uww.edu"; //140.146.23.39 or washington.uww.edu
     static final String databaseURL ="jdbc:mariadb://"+hostName+"/"+databasePrefix;
-    static final String password="hien123"; // please enter your own password
+    static final String password="ez4854"; // please enter your own password
         
     public static void main(String args[]) {
                 
