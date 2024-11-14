@@ -1,4 +1,4 @@
-#Lab 2 – Practice on Stored procedure (10 point each)
+Lab 2 – Practice on Stored procedure (10 point each)
 1. (i) Write a stored procedure to return the number of faculty from Faculty table.
 (ii) Write Java code to get call this procedure from Java and display the total number of
 faculty from Java console.
