@@ -1,3 +1,5 @@
+package ClassExamples;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -54,7 +56,6 @@ public class SimpleCursorSPDemo {
 } // end of simpleQuery method
 
 public static void main(String args[]) {
-
 	SimpleCursorSPDemo demoObj = new SimpleCursorSPDemo();
 	demoObj.Connection();
 	String spName ="getClassInfo21";
